@@ -1,0 +1,73 @@
+{% extends "template.html" %}
+{% block main %}
+
+    <form class="form" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <fieldset class="control-group">
+                <label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+                <div class="controls">
+                    {{ field }}
+                    <p class="help-text">{{ field.help_text }} </p>
+                </div>
+            </fieldset>
+        {% endfor %}
+        <button class="btn btn-primary" type="submit">Zapisz</button>
+    </form>
+    <a href="/delete/{{ id }}">
+        <button class="btn btn-danger">Usuń</button>
+    </a>
+    <table class="table">
+        <thead>
+            <th>Nazwa</th>
+            <th>Kategoria</th>
+            <th>Ilość</th>
+            <th>Cena jednostkowa</th>
+            <th>Cena</th>
+            <th>Akcje</th>
+        </thead>
+        <tbody>
+            <tr>
+                <form class="form-inline" method="post" action="/item/add/{{ id }}/">
+                {% csrf_token %}
+                {% for field in formItem %}
+                    <td>
+                    <fieldset class="control-group">
+                        <div class="controls">
+                            {{ field }}
+                            <p class="help-text">{{ field.help_text }} </p>
+                        </div>
+                    </fieldset>
+                    </td>
+                {% endfor %}
+                <td>
+                    <button class="btn btn-sm btn-primary" type="submit">Zapisz</button>
+                </td>
+                </form>
+            </tr>
+            {% for item in items %}
+                <tr>
+                    <form class="form-inline" method="post" action="/item/add/{{ id }}/{{ item.id }}">
+                        {% csrf_token %}
+                        {% for field in item.form %}
+                            <td>
+                            <fieldset class="control-group">
+                                <div class="controls">
+                                    {{ field }}
+                                    <p class="help-text">{{ field.help_text }} </p>
+                                </div>
+                            </fieldset>
+                            </td>
+                        {% endfor %}
+                        <td>
+                            <button class="btn btn-sm btn-primary" type="submit">Zapisz</button>
+                            <a href="/item/delete/{{ item.id }}">
+                                <button class="btn btn-sm btn-danger" type="button">Usuń</button>
+                            </a>
+                        </td>
+                    </form>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

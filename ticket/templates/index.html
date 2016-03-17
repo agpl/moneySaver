@@ -1,0 +1,34 @@
+{% extends "template.html" %}
+{% block main %}
+<table class="table">
+  <thead>
+    <th>Lp</th>
+    <th>Miejsce</th>
+    <th>Data</th>
+    <th>Suma</th>
+    <th>Akcje</th>
+  </thead>
+  <tbody>
+        {% for ticket in tickets %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ ticket.place }}</td>
+                <td>{{ ticket.date }}</td>
+                <td>{{ ticket.total }} zł</td>
+                <td>
+                    <a href="/edit/{{ ticket.id }}">Edytuj</a> |
+                    <a href="/delete/{{ ticket.id }}">Usuń</a>
+                </td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>{{ total.total__sum }} zł</b></td>
+
+            <td></td>
+        </tr>
+  </tbody>
+</table>
+{% endblock %}
